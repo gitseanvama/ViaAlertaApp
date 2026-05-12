@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AlertaApp</title>
+
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- ICONOS -->
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- LOGO -->
+        <div class="logo-box">
+            <i class="fa-solid fa-location-dot"></i>
+        </div>
+
+        <h1>Bienvenido a AlertaApp</h1>
+        <p class="subtitle">
+            Inicia sesión para reportar huecos
+        </p>
+
+        <!-- FORMULARIO -->
+        <form id="loginForm">
+
+            <div class="input-group">
+                <label>Correo electrónico</label>
+
+                <div class="input-box">
+                    <i class="fa-regular fa-envelope"></i>
+                    <input type="email"
+                    id="loginEmail"
+                    placeholder="tu@email.com"
+                    required>
+                </div>
+            </div>
+
+            <div class="input-group">
+                <label>Contraseña</label>
+
+                <div class="input-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password"
+                    id="loginPassword"
+                    placeholder="••••••••"
+                    required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">
+                Ingresar
+            </button>
+
+        </form>
+
+        <!-- DIVIDER -->
+        <div class="divider">
+            <span>o continuar con</span>
+        </div>
+
+        <!-- GOOGLE -->
+        <button class="btn-google">
+            <i class="fa-brands fa-google"></i>
+            Continuar con Google
+        </button>
+
+        <!-- LINK -->
+        <p class="bottom-text">
+            ¿No tienes cuenta?
+            <a href="registro.html">Registrarse</a>
+        </p>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
