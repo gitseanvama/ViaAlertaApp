@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — VíaAlerta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+  
+</head>
+<body>
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <span class="sidebar-logo-icon">⚠</span>
+          <span>Vía<strong>Alerta</strong></span>
+        </div>
+        <div class="sidebar-user">
+          <div class="sidebar-user-avatar" id="userAvatar">J</div>
+          <div class="sidebar-user-info">
+            <div class="sidebar-user-name" id="userName">Juan Martínez</div>
+            <div class="sidebar-user-email" id="userEmail">juan@example.com</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="#" class="sidebar-nav-item active" onclick="switchView('resumen')">
+          <span class="sidebar-nav-item-icon">📊</span>
+          Resumen
+        </a>
+        <a href="#" class="sidebar-nav-item" onclick="switchView('reportes')">
+          <span class="sidebar-nav-item-icon">📍</span>
+          Mis reportes
+        </a>
+        <a href="#" class="sidebar-nav-item" onclick="switchView('nuevo')">
+          <span class="sidebar-nav-item-icon">➕</span>
+          Nuevo reporte
+        </a>
+        <a href="#" class="sidebar-nav-item" onclick="switchView('configuracion')">
+          <span class="sidebar-nav-item-icon">⚙️</span>
+          Configuración
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" onclick="logout()">
+          <span>🚪</span>
+          Cerrar sesión
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="dashboard-main">
+      <!-- Dashboard header -->
+      <div class="dashboard-header">
+        <div>
+          <div class="dashboard-title">Dashboard</div>
+          <div class="dashboard-subtitle" id="subtitleSection">Bienvenido a tu panel de control</div>
+        </div>
+      </div>
+
+      <!-- Dashboard content -->
+      <div class="dashboard-content">
+        <!-- Resumen view -->
+        <div id="view-resumen" class="view-section">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Resumen de actividad</h2>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <div class="stat-box-icon">📝</div>
+              <div class="stat-box-value" id="statsTotal">6</div>
+              <div class="stat-box-label">Reportes totales</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-icon">⏳</div>
+              <div class="stat-box-value" id="statsPendientes">2</div>
+              <div class="stat-box-label">Pendientes</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-icon">🔍</div>
+              <div class="stat-box-value" id="statsRevision">3</div>
+              <div class="stat-box-label">En revisión</div>
+            </div>
+            <div class="stat-box">
+              <div class="stat-box-icon">✅</div>
+              <div class="stat-box-value" id="statsResueltos">1</div>
+              <div class="stat-box-label">Resueltos</div>
+            </div>
+          </div>
+
+          <div class="reports-section">
+            <div class="section-header-bar">
+              <h3>Reportes recientes</h3>
+              <button class="btn-new-report" onclick="switchView('nuevo')">+ Nuevo reporte</button>
+            </div>
+            <div class="reports-list" id="recentReports">
+              <div class="report-item">
+                <div class="report-info">
+                  <div class="report-id">#VIA-2024-001</div>
+                  <div class="report-location">Av. El Dorado con Cra. 50</div>
+                  <div class="report-description">Hueco de gran tamaño en carril derecho. Daño profundo que afecta tránsito de buses.</div>
+                  <div class="report-meta">
+                    <span>📅 2 de Mayo, 2026</span>
+                    <span>📌 Bogotá</span>
+                  </div>
+                </div>
+                <div class="report-status">
+                  <span class="status-badge status-revision">En revisión</span>
+                </div>
+              </div>
+
+              <div class="report-item">
+                <div class="report-info">
+                  <div class="report-id">#VIA-2024-002</div>
+                  <div class="report-location">Calle 80 con Autopista Norte</div>
+                  <div class="report-description">Múltiples huecos en zona de semáforo. Riesgo para motociclistas.</div>
+                  <div class="report-meta">
+                    <span>📅 30 de Abril, 2026</span>
+                    <span>📌 Bogotá</span>
+                  </div>
+                </div>
+                <div class="report-status">
+                  <span class="status-badge status-pendiente">Pendiente</span>
+                </div>
+              </div>
+
+              <div class="report-item">
+                <div class="report-info">
+                  <div class="report-id">#VIA-2024-003</div>
+                  <div class="report-location">Transversal 93 con Calle 142</div>
+                  <div class="report-description">Señalización borrada y bache en intersección.</div>
+                  <div class="report-meta">
+                    <span>📅 28 de Abril, 2026</span>
+                    <span>📌 Bogotá</span>
+                  </div>
+                </div>
+                <div class="report-status">
+                  <span class="status-badge status-resuelto">Resuelto</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reportes view -->
+        <div id="view-reportes" class="view-section" style="display: none;">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Mis reportes</h2>
+          <div class="reports-section">
+            <div class="section-header-bar">
+              <h3>Todos tus reportes</h3>
+              <button class="btn-new-report" onclick="switchView('nuevo')">+ Nuevo reporte</button>
+            </div>
+            <div class="reports-list" id="allReports">
+              <!-- Reports loaded dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Nuevo reporte view -->
+        <div id="view-nuevo" class="view-section" style="display: none;">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Crear nuevo reporte</h2>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 600px;">
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+              Completa el formulario para reportar una vía dañada. Tu información será verificada por nuestro equipo.
+            </p>
+            <a href="index.html#formulario" class="btn-primary" style="display: inline-block;">
+              Ir al formulario de reportes
+            </a>
+          </div>
+        </div>
+
+        <!-- Configuración view -->
+        <div id="view-configuracion" class="view-section" style="display: none;">
+          <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Configuración</h2>
+          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 600px;">
+            <h3 style="margin-bottom: 1rem; font-size: 1rem;">Información de cuenta</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem;">
+              <div>
+                <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Nombre</label>
+                <input type="text" id="configName" value="Juan Martínez" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-main);" />
+              </div>
+              <div>
+                <label style="display: block; font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.5rem;">Correo electrónico</label>
+                <input type="email" id="configEmail" value="juan@example.com" style="width: 100%; padding: 10px; background: var(--bg-surface); border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-primary); font-family: var(--font-main);" />
+              </div>
+            </div>
+            <button class="btn-primary" onclick="saveConfig()">Guardar cambios</button>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Initialize dashboard with user data from localStorage
+    function initDashboard() {
+      const userData = JSON.parse(localStorage.getItem('userData')) || {};
+      const email = userData.email || 'usuario@example.com';
+      const name = userData.name || 'Usuario';
+      
+      // Update sidebar
+      document.getElementById('userName').textContent = name;
+      document.getElementById('userEmail').textContent = email;
+      document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+
+      // Update configuration
+      document.getElementById('configName').value = name;
+      document.getElementById('configEmail').value = email;
+    }
+
+    function switchView(viewName) {
+      // Hide all views
+      document.querySelectorAll('.view-section').forEach(el => {
+        el.style.display = 'none';
+      });
+
+      // Show selected view
+      document.getElementById('view-' + viewName).style.display = 'block';
+
+      // Update sidebar active state
+      document.querySelectorAll('.sidebar-nav-item').forEach(el => {
+        el.classList.remove('active');
+      });
+      event.target.closest('.sidebar-nav-item').classList.add('active');
+
+      // Update subtitle
+      const subtitles = {
+        resumen: 'Bienvenido a tu panel de control',
+        reportes: 'Historial de todos tus reportes',
+        nuevo: 'Reporta una nueva vía dañada',
+        configuracion: 'Administra tu cuenta'
+      };
+      document.getElementById('subtitleSection').textContent = subtitles[viewName] || '';
+    }
+
+    function saveConfig() {
+      const name = document.getElementById('configName').value;
+      const email = document.getElementById('configEmail').value;
+
+      const userData = {
+        name,
+        email
+      };
+
+      localStorage.setItem('userData', JSON.stringify(userData));
+      
+      // Update display
+      document.getElementById('userName').textContent = name;
+      document.getElementById('userEmail').textContent = email;
+
+      alert('✓ Configuración guardada exitosamente');
+    }
+
+    function logout() {
+      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
+        localStorage.removeItem('userData');
+        localStorage.removeItem('sessionToken');
+        window.location.href = 'login.html';
+      }
+    }
+
+    // Initialize on page load
+    initDashboard();
+  </script>
+</body>
+</html>
