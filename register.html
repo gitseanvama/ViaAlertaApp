@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Registrarse — VíaAlerta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-dark:    #0f1117;
+      --bg-surface: #161b27;
+      --bg-card:    #1a1f2e;
+      --border:     rgba(255,255,255,0.08);
+      --border-focus: rgba(229,57,53,0.6);
+      --text-primary:   #f1f5f9;
+      --text-secondary: #94a3b8;
+      --text-muted:     #64748b;
+      --accent-red:  #e53935;
+      --accent-red2: #c62828;
+      --font-main: 'Space Grotesk', sans-serif;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-main);
+      background: var(--bg-dark);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      background-image:
+        linear-gradient(rgba(229,57,53,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(229,57,53,0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    /* ---- BACK LINK ---- */
+    .back-link {
+      position: fixed;
+      top: 18px;
+      left: 20px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      z-index: 10;
+    }
+    .back-link:hover { color: var(--text-primary); }
+
+    /* ---- CARD ---- */
+    .auth-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 2.25rem 2rem 2rem;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.55);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ---- LOGO BLOCK ---- */
+    .auth-logo {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.85rem;
+      margin-bottom: 1.6rem;
+    }
+    .auth-logo-icon {
+      width: 64px;
+      height: 64px;
+      background: linear-gradient(145deg, #1e2436, #2a3050);
+      border: 1px solid rgba(229,57,53,0.3);
+      border-radius: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      color: #e53935;
+      box-shadow: 0 4px 24px rgba(229,57,53,0.25);
+      text-shadow: 0 0 16px rgba(229,57,53,0.5);
+    }
+    .auth-logo h1 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+    .auth-logo h1 span { color: var(--accent-red); }
+    .auth-logo p {
+      color: var(--text-muted);
+      font-size: 0.83rem;
+      text-align: center;
+      margin-top: -0.35rem;
+    }
+
+    /* ---- FORM ---- */
+    .auth-form { width: 100%; display: flex; flex-direction: column; gap: 14px; }
+
+    .field-label {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+      display: block;
+    }
+    .field-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .field-icon {
+      position: absolute;
+      left: 13px;
+      color: var(--text-muted);
+      font-size: 1rem;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .field-wrap input {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 12px 40px 12px 40px;
+      color: var(--text-primary);
+      font-family: var(--font-main);
+      font-size: 0.9rem;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .field-wrap input::placeholder { color: var(--text-muted); }
+    .field-wrap input:focus {
+      border-color: var(--border-focus);
+      background: rgba(229,57,53,0.04);
+    }
+    .field-wrap input.valid { border-color: rgba(34,197,94,0.5); }
+    .field-wrap input.invalid { border-color: rgba(229,57,53,0.6); }
+    .eye-toggle {
+      position: absolute;
+      right: 13px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0;
+      transition: color 0.2s;
+    }
+    .eye-toggle:hover { color: var(--text-primary); }
+
+    /* Password strength bar */
+    .pass-strength {
+      margin-top: 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .strength-seg {
+      flex: 1;
+      height: 3px;
+      border-radius: 2px;
+      background: var(--border);
+      transition: background 0.3s;
+    }
+    .strength-seg.weak   { background: #e53935; }
+    .strength-seg.medium { background: #f97316; }
+    .strength-seg.strong { background: #22c55e; }
+    .strength-label {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 3px;
+    }
+
+    /* Terms */
+    .terms-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .terms-row input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--accent-red);
+      flex-shrink: 0;
+      margin-top: 1px;
+      cursor: pointer;
+    }
+    .terms-row a { color: var(--text-secondary); text-decoration: underline; }
+    .terms-row a:hover { color: var(--text-primary); }
+
+    /* ---- CTA BUTTON ---- */
+    .btn-auth {
+      width: 100%;
+      background: linear-gradient(135deg, #e53935 0%, #c62828 100%);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px;
+      font-family: var(--font-main);
+      font-size: 0.95rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2px;
+      box-shadow: 0 4px 20px rgba(229,57,53,0.35);
+      transition: opacity 0.2s, transform 0.15s, box-shadow 0.2s;
+    }
+    .btn-auth:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 28px rgba(229,57,53,0.45);
+    }
+    .btn-auth:active { transform: scale(0.98); }
+    .btn-auth:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+    /* ---- DIVIDER ---- */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      margin: 2px 0;
+      width: 100%;
+    }
+    .divider::before, .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ---- SOCIAL BUTTONS ---- */
+    .social-btns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      width: 100%;
+    }
+    .btn-social {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-md);
+      padding: 11px 8px;
+      color: var(--text-secondary);
+      font-family: var(--font-main);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .btn-social:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); }
+    .btn-social svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    /* ---- LOGIN LINK ---- */
+    .auth-switch {
+      color: var(--text-muted);
+      font-size: 0.83rem;
+      margin-top: 2px;
+    }
+    .auth-switch a {
+      color: var(--text-primary);
+      font-weight: 600;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .auth-switch a:hover { color: var(--accent-red); }
+
+    /* ---- SECURITY BADGE ---- */
+    .security-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 9px 14px;
+      width: 100%;
+      margin-top: 14px;
+    }
+    .security-badge-text strong {
+      display: block;
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+    }
+    .security-badge-text span {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+    }
+
+    /* Success overlay */
+    .success-screen {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      gap: 1rem;
+      text-align: center;
+      width: 100%;
+      padding: 1rem 0;
+    }
+    .success-icon {
+      width: 64px;
+      height: 64px;
+      background: rgba(34,197,94,0.15);
+      color: #4ade80;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+    }
+    .success-screen h2 { font-size: 1.3rem; color: #4ade80; }
+    .success-screen p { color: var(--text-muted); font-size: 0.88rem; }
+    .success-screen a {
+      background: linear-gradient(135deg, #e53935, #c62828);
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 28px;
+      border-radius: var(--radius-md);
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-top: 6px;
+      display: inline-block;
+    }
+
+    @media (max-width: 420px) {
+      .auth-card { padding: 1.75rem 1.25rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="index.html" class="back-link">← Volver al inicio</a>
+
+  <div class="auth-card">
+
+    <!-- LOGO -->
+    <div class="auth-logo">
+      <div class="auth-logo-icon">⚠</div>
+      <h1>VÍA <span>ALERTA</span></h1>
+      <p>Crea tu cuenta ciudadana gratis</p>
+    </div>
+
+    <!-- SUCCESS SCREEN (hidden by default) -->
+    <div class="success-screen" id="success-screen">
+      <div class="success-icon">✓</div>
+      <h2>¡Registro exitoso!</h2>
+      <p>Tu cuenta ha sido creada.<br />Ya puedes reportar y seguir vías dañadas.</p>
+      <a href="login.html">Iniciar sesión →</a>
+    </div>
+
+    <!-- FORM -->
+    <form class="auth-form" id="reg-form" onsubmit="handleRegister(event)" novalidate>
+
+      <div>
+        <label class="field-label" for="reg-name">Nombre completo</label>
+        <div class="field-wrap">
+          <span class="field-icon">👤</span>
+          <input type="text" id="reg-name" placeholder="Juan Martínez" autocomplete="name" required />
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label" for="reg-email">Correo electrónico</label>
+        <div class="field-wrap">
+          <span class="field-icon">✉</span>
+          <input type="email" id="reg-email" placeholder="juan.martinez@gmail.com" autocomplete="email" required />
+        </div>
+      </div>
+
+      <div>
+        <label class="field-label" for="reg-pass">Contraseña</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="reg-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required oninput="checkStrength(this.value)" />
+          <button type="button" class="eye-toggle" onclick="togglePass('reg-pass', this)" aria-label="Mostrar contraseña">👁</button>
+        </div>
+        <div class="pass-strength">
+          <div class="strength-seg" id="seg1"></div>
+          <div class="strength-seg" id="seg2"></div>
+          <div class="strength-seg" id="seg3"></div>
+          <div class="strength-seg" id="seg4"></div>
+        </div>
+        <div class="strength-label" id="strength-label"></div>
+      </div>
+
+      <div>
+        <label class="field-label" for="reg-pass2">Confirmar contraseña</label>
+        <div class="field-wrap">
+          <span class="field-icon">🔒</span>
+          <input type="password" id="reg-pass2" placeholder="Repite tu contraseña" autocomplete="new-password" required />
+          <button type="button" class="eye-toggle" onclick="togglePass('reg-pass2', this)" aria-label="Mostrar contraseña">👁</button>
+        </div>
+      </div>
+
+      <label class="terms-row">
+        <input type="checkbox" id="terms" required />
+        Acepto los <a href="#" onclick="return false">términos de uso</a> y la <a href="#" onclick="return false">política de privacidad</a>
+      </label>
+
+      <button type="submit" class="btn-auth" id="reg-btn">⚠ CREAR CUENTA</button>
+
+      <div class="divider">o regístrate con</div>
+
+      <div class="social-btns">
+        <button type="button" class="btn-social">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#EA4335" d="M5.266 9.765A7.077 7.077 0 0 1 12 4.909c1.69 0 3.218.6 4.418 1.582L19.91 3C17.782 1.145 15.055 0 12 0 7.27 0 3.198 2.698 1.24 6.65l4.026 3.115Z"/>
+            <path fill="#34A853" d="M16.04 18.013c-1.09.703-2.474 1.078-4.04 1.078a7.077 7.077 0 0 1-6.723-4.823l-4.04 3.067A11.965 11.965 0 0 0 12 24c2.933 0 5.735-1.043 7.834-3l-3.793-2.987Z"/>
+            <path fill="#4A90D9" d="M19.834 21c2.195-2.048 3.62-5.096 3.62-9 0-.71-.109-1.473-.272-2.182H12v4.637h6.436c-.317 1.559-1.17 2.766-2.395 3.558L19.834 21Z"/>
+            <path fill="#FBBC05" d="M5.277 14.268A7.12 7.12 0 0 1 4.909 12c0-.782.125-1.533.357-2.235L1.24 6.65A11.934 11.934 0 0 0 0 12c0 1.92.445 3.73 1.237 5.335l4.04-3.067Z"/>
+          </svg>
+          Google
+        </button>
+        <button type="button" class="btn-social">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path fill="#1877F2" d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.931-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073Z"/>
+          </svg>
+          Facebook
+        </button>
+      </div>
+
+      <p class="auth-switch">¿Ya tienes cuenta? <a href="login.html">Iniciar sesión →</a></p>
+
+    </form>
+
+    <!-- SECURITY BADGE -->
+    <div class="security-badge">
+      <span>🔒</span>
+      <div class="security-badge-text">
+        <strong>Conexión segura cifrada</strong>
+        <span>SSL · Datos encriptados</span>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function togglePass(inputId, btn) {
+      const input = document.getElementById(inputId);
+      if (input.type === 'password') {
+        input.type = 'text';
+        btn.textContent = '🙈';
+      } else {
+        input.type = 'password';
+        btn.textContent = '👁';
+      }
+    }
+
+    function checkStrength(val) {
+      const segs = [
+        document.getElementById('seg1'),
+        document.getElementById('seg2'),
+        document.getElementById('seg3'),
+        document.getElementById('seg4'),
+      ];
+      const label = document.getElementById('strength-label');
+      let score = 0;
+      if (val.length >= 8) score++;
+      if (/[A-Z]/.test(val)) score++;
+      if (/[0-9]/.test(val)) score++;
+      if (/[^A-Za-z0-9]/.test(val)) score++;
+
+      segs.forEach((s, i) => {
+        s.className = 'strength-seg';
+        if (i < score) {
+          s.classList.add(score <= 1 ? 'weak' : score <= 2 ? 'medium' : 'strong');
+        }
+      });
+
+      const labels = ['', 'Débil', 'Regular', 'Buena', 'Fuerte'];
+      label.textContent = val.length ? labels[score] || 'Fuerte' : '';
+      label.style.color = score <= 1 ? '#e53935' : score <= 2 ? '#f97316' : '#22c55e';
+    }
+
+    function handleRegister(e) {
+      e.preventDefault();
+      const p1 = document.getElementById('reg-pass').value;
+      const p2 = document.getElementById('reg-pass2').value;
+      if (p1 !== p2) {
+        document.getElementById('reg-pass2').classList.add('invalid');
+        document.getElementById('reg-pass2').focus();
+        return;
+      }
+      const btn = document.getElementById('reg-btn');
+      btn.textContent = '⏳ Creando cuenta...';
+      btn.disabled = true;
+      setTimeout(() => {
+        document.getElementById('reg-form').style.display = 'none';
+        const s = document.getElementById('success-screen');
+        s.style.display = 'flex';
+        s.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }, 1200);
+    }
+  </script>
+
+</body>
+</html>
