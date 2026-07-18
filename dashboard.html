@@ -7,12 +7,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="estilos.css" />
   
 </head>
 <body>
   <div class="dashboard-container">
-    <!-- Sidebar -->
+    <!-- barra lateral -->
     <aside class="dashboard-sidebar">
       <div class="sidebar-header">
         <div class="sidebar-logo">
@@ -29,19 +29,19 @@
       </div>
 
       <nav class="sidebar-nav">
-        <a href="#" class="sidebar-nav-item active" onclick="switchView('resumen')">
+        <a href="#" class="sidebar-nav-item active" data-view="resumen" onclick="switchView('resumen', event)">
           <span class="sidebar-nav-item-icon">📊</span>
           Resumen
         </a>
-        <a href="#" class="sidebar-nav-item" onclick="switchView('reportes')">
+        <a href="#" class="sidebar-nav-item" data-view="reportes" onclick="switchView('reportes', event)">
           <span class="sidebar-nav-item-icon">📍</span>
           Mis reportes
         </a>
-        <a href="#" class="sidebar-nav-item" onclick="switchView('nuevo')">
+        <a href="#" class="sidebar-nav-item" data-view="nuevo" onclick="switchView('nuevo', event)">
           <span class="sidebar-nav-item-icon">➕</span>
           Nuevo reporte
         </a>
-        <a href="#" class="sidebar-nav-item" onclick="switchView('configuracion')">
+        <a href="#" class="sidebar-nav-item" data-view="configuracion" onclick="switchView('configuracion', event)">
           <span class="sidebar-nav-item-icon">⚙️</span>
           Configuración
         </a>
@@ -55,7 +55,7 @@
       </div>
     </aside>
 
-    <!-- Main content -->
+    <!-- Contenido principal -->
     <main class="dashboard-main">
       <!-- Dashboard header -->
       <div class="dashboard-header">
@@ -63,11 +63,12 @@
           <div class="dashboard-title">Dashboard</div>
           <div class="dashboard-subtitle" id="subtitleSection">Bienvenido a tu panel de control</div>
         </div>
+        <button id="menuToggle" class="menu-toggle-btn" title="Alternar menú">☰</button>
       </div>
 
-      <!-- Dashboard content -->
+      <!-- contenido cuadro de mando -->
       <div class="dashboard-content">
-        <!-- Resumen view -->
+        <!-- Resumen vista -->
         <div id="view-resumen" class="view-section">
           <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Resumen de actividad</h2>
 
@@ -107,7 +108,7 @@
                   <div class="report-description">Hueco de gran tamaño en carril derecho. Daño profundo que afecta tránsito de buses.</div>
                   <div class="report-meta">
                     <span>📅 2 de Mayo, 2026</span>
-                    <span>📌 Bogotá</span>
+                    <span>📌 Cúcuta</span>
                   </div>
                 </div>
                 <div class="report-status">
@@ -118,11 +119,11 @@
               <div class="report-item">
                 <div class="report-info">
                   <div class="report-id">#VIA-2024-002</div>
-                  <div class="report-location">Calle 80 con Autopista Norte</div>
+                  <div class="report-location">Calle 6 con Autopista Norte</div>
                   <div class="report-description">Múltiples huecos en zona de semáforo. Riesgo para motociclistas.</div>
                   <div class="report-meta">
                     <span>📅 30 de Abril, 2026</span>
-                    <span>📌 Bogotá</span>
+                    <span>📌 Cúcuta</span>
                   </div>
                 </div>
                 <div class="report-status">
@@ -133,11 +134,11 @@
               <div class="report-item">
                 <div class="report-info">
                   <div class="report-id">#VIA-2024-003</div>
-                  <div class="report-location">Transversal 93 con Calle 142</div>
+                  <div class="report-location">Transversal 26 con Calle 142</div>
                   <div class="report-description">Señalización borrada y bache en intersección.</div>
                   <div class="report-meta">
                     <span>📅 28 de Abril, 2026</span>
-                    <span>📌 Bogotá</span>
+                    <span>📌 Cúcuta</span>
                   </div>
                 </div>
                 <div class="report-status">
@@ -148,7 +149,7 @@
           </div>
         </div>
 
-        <!-- Reportes view -->
+        <!-- Reportes Vista -->
         <div id="view-reportes" class="view-section" style="display: none;">
           <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Mis reportes</h2>
           <div class="reports-section">
@@ -162,20 +163,132 @@
           </div>
         </div>
 
-        <!-- Nuevo reporte view -->
+        <!-- Nuevo reporte Vista -->
         <div id="view-nuevo" class="view-section" style="display: none;">
           <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Crear nuevo reporte</h2>
-          <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 600px;">
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-              Completa el formulario para reportar una vía dañada. Tu información será verificada por nuestro equipo.
-            </p>
-            <a href="index.html#formulario" class="btn-primary" style="display: inline-block;">
-              Ir al formulario de reportes
-            </a>
+          <div class="form-container">
+            <div class="form-card">
+              <div id="form-success" class="form-success" hidden>
+                <span class="success-icon">✓</span>
+                <h3>¡Reporte enviado!</h3>
+                <p>Gracias por contribuir. Tu reporte ha sido registrado con el código <strong id="codigo-reporte">#VIA-2024-XXX</strong>.</p>
+                <button onclick="resetForm()">Hacer otro reporte</button>
+              </div>
+
+              <form id="reporte-form" onsubmit="enviarReporte(event)" novalidate>
+                <div class="form-grid">
+                  <div class="form-group full-width">
+                    <label for="direccion">Dirección del daño *</label>
+                    <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle 10 con #3 , Cúcuta" required />
+                    <span class="form-hint">Sé lo más específico posible (barrio, referencia cercana)</span>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="localidad">Localidad / Municipio *</label>
+                    <select id="localidad" name="localidad" required onchange="actualizarSectores()">
+                      <option value="">Selecciona una comuna...</option>
+                      <option value="comuna-1">Comuna 1 - Barrio Blanco</option>
+                      <option value="comuna-2">Comuna 2 - El Taylorismo</option>
+                      <option value="comuna-3">Comuna 3 - Las Américas</option>
+                      <option value="comuna-4">Comuna 4 - Los Andes</option>
+                      <option value="comuna-5">Comuna 5 - Antonia Santos</option>
+                      <option value="comuna-6">Comuna 6 - San Fernando</option>
+                      <option value="comuna-7">Comuna 7 - Los Caobos</option>
+                      <option value="comuna-8">Comuna 8 - Av. Guaimaral</option>
+                      <option value="comuna-9">Comuna 9 - Centro</option>
+                      <option value="comuna-10">Comuna 10 - Juan Atalaya</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group" id="sector-group" style="display:none;">
+                    <label for="sector">Sector de la Comuna *</label>
+                    <select id="sector" name="sector">
+                      <option value="">Selecciona un sector...</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="tipo-dano">Tipo de daño *</label>
+                    <select id="tipo-dano" name="tipo-dano" required>
+                      <option value="">Selecciona...</option>
+                      <option>Hueco / bache</option>
+                      <option>Socavón</option>
+                      <option>Grietas en pavimento</option>
+                      <option>Señalización borrada</option>
+                      <option>Señal de tránsito caída</option>
+                      <option>Hundimiento de vía</option>
+                      <option>Daño en andén / bordillo</option>
+                      <option>Otro</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label>Nivel de gravedad *</label>
+                    <div class="gravedad-selector">
+                      <label class="gravedad-opcion critica">
+                        <input type="radio" name="gravedad" value="critica" required />
+                        <span class="gravedad-label">⚠ Crítico</span>
+                        <span class="gravedad-desc">Peligro inmediato, daños a vehículos</span>
+                      </label>
+                      <label class="gravedad-opcion alta">
+                        <input type="radio" name="gravedad" value="alta" />
+                        <span class="gravedad-label">▲ Alto</span>
+                        <span class="gravedad-desc">Requiere atención urgente</span>
+                      </label>
+                      <label class="gravedad-opcion media">
+                        <input type="radio" name="gravedad" value="media" />
+                        <span class="gravedad-label">● Medio</span>
+                        <span class="gravedad-desc">Daño moderado, molesto</span>
+                      </label>
+                      <label class="gravedad-opcion baja">
+                        <input type="radio" name="gravedad" value="baja" />
+                        <span class="gravedad-label">◌ Bajo</span>
+                        <span class="gravedad-desc">Deterioro leve, preventivo</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div class="form-group full-width">
+                    <label for="descripcion">Descripción del daño *</label>
+                    <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe el daño con detalle: tamaño aproximado, cuánto tiempo lleva así, si ha causado accidentes..." required></textarea>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="foto">Foto del daño (opcional)</label>
+                    <div class="file-upload" onclick="document.getElementById('foto').click()">
+                      <span>📷 Toca para adjuntar foto</span>
+                      <span class="file-hint">JPG, PNG — máx. 5MB</span>
+                    </div>
+                    <input type="file" id="foto" name="foto" accept="image/*" style="display:none" onchange="mostrarFoto(this)" />
+                    <div id="preview-foto" class="foto-preview" hidden></div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="horario">¿Cuándo es más peligroso?</label>
+                    <select id="horario" name="horario">
+                      <option value="">Selecciona...</option>
+                      <option>Todo el día</option>
+                      <option>Horas pico (mañana/tarde)</option>
+                      <option>Noche (falta iluminación)</option>
+                      <option>Lluvia (se inunda)</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group full-width aviso-anonimo">
+                    <span>🔒 Tu reporte es completamente anónimo. No se almacenan datos personales.</span>
+                  </div>
+                </div>
+
+                <div class="form-actions">
+                  <button type="reset" class="btn-outline">Limpiar</button>
+                  <button type="submit" class="btn-primary">Enviar reporte →</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
 
-        <!-- Configuración view -->
+        <!-- Configuración Vista -->
         <div id="view-configuracion" class="view-section" style="display: none;">
           <h2 style="margin-bottom: 1.5rem; font-size: 1.3rem;">Configuración</h2>
           <div style="background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 2rem; max-width: 600px;">
@@ -196,77 +309,6 @@
       </div>
     </main>
   </div>
-
-  <script>
-    // Initialize dashboard with user data from localStorage
-    function initDashboard() {
-      const userData = JSON.parse(localStorage.getItem('userData')) || {};
-      const email = userData.email || 'usuario@example.com';
-      const name = userData.name || 'Usuario';
-      
-      // Update sidebar
-      document.getElementById('userName').textContent = name;
-      document.getElementById('userEmail').textContent = email;
-      document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
-
-      // Update configuration
-      document.getElementById('configName').value = name;
-      document.getElementById('configEmail').value = email;
-    }
-
-    function switchView(viewName) {
-      // Hide all views
-      document.querySelectorAll('.view-section').forEach(el => {
-        el.style.display = 'none';
-      });
-
-      // Show selected view
-      document.getElementById('view-' + viewName).style.display = 'block';
-
-      // Update sidebar active state
-      document.querySelectorAll('.sidebar-nav-item').forEach(el => {
-        el.classList.remove('active');
-      });
-      event.target.closest('.sidebar-nav-item').classList.add('active');
-
-      // Update subtitle
-      const subtitles = {
-        resumen: 'Bienvenido a tu panel de control',
-        reportes: 'Historial de todos tus reportes',
-        nuevo: 'Reporta una nueva vía dañada',
-        configuracion: 'Administra tu cuenta'
-      };
-      document.getElementById('subtitleSection').textContent = subtitles[viewName] || '';
-    }
-
-    function saveConfig() {
-      const name = document.getElementById('configName').value;
-      const email = document.getElementById('configEmail').value;
-
-      const userData = {
-        name,
-        email
-      };
-
-      localStorage.setItem('userData', JSON.stringify(userData));
-      
-      // Update display
-      document.getElementById('userName').textContent = name;
-      document.getElementById('userEmail').textContent = email;
-
-      alert('✓ Configuración guardada exitosamente');
-    }
-
-    function logout() {
-      if (confirm('¿Estás seguro de que deseas cerrar sesión?')) {
-        localStorage.removeItem('userData');
-        localStorage.removeItem('sessionToken');
-        window.location.href = 'login.html';
-      }
-    }
-
-    // Initialize on page load
-    initDashboard();
-  </script>
+<script src="javascript.js"></script>
 </body>
 </html>

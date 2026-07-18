@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VíaAlerta — Reporte Ciudadano de Vías</title>
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="estilos.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- HEADER -->
+  <!-- ENCABEZADO -->
   <header id="site-header">
     <div class="header-inner">
       <div class="logo">
@@ -22,17 +22,13 @@
         <ul>
           <li><a href="#mapa">Mapa</a></li>
           <li><a href="#reportes">Reportes</a></li>
-          <li><a href="#formulario">Reportar</a></li>
           <li><a href="#estado">Estado</a></li>
         </ul>
+        <div class="header-auth">
+          <a href="inicio_sesion.html" class="btn-login-nav">Iniciar sesión</a>
+          <a href="registro_usuario.html" class="btn-register-nav">Registrarse</a>
+        </div>
       </nav>
-      <div class="header-auth">
-        <a href="login.html" class="btn-login-nav">Iniciar sesión</a>
-        <a href="register.html" class="btn-register-nav">Registrarse</a>
-      </div>
-      <button class="btn-report-nav" onclick="document.getElementById('formulario').scrollIntoView({behavior:'smooth'})">
-        + Nuevo reporte
-      </button>
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">&#9776;</button>
     </div>
   </header>
@@ -41,16 +37,14 @@
   <section id="hero">
     <div class="hero-main">
       <div class="hero-content">
-        <p class="hero-label">Plataforma ciudadana</p>
+        <p class="hero-label">Plataforma para ciudadanos</p>
         <h1>Reporta huecos y vías<br /><span class="accent">dañadas</span> en tu ciudad</h1>
         <p class="hero-desc">Juntos construimos una ciudad mejor. Reporta el daño, sigue su estado y exige soluciones reales.</p>
         <div class="hero-btns">
-          <button class="btn-primary" onclick="document.getElementById('formulario').scrollIntoView({behavior:'smooth'})">Hacer un reporte</button>
           <button class="btn-outline" onclick="document.getElementById('mapa').scrollIntoView({behavior:'smooth'})">Ver mapa de daños</button>
         </div>
       </div>
 
-      <!-- HERO ILLUSTRATION -->
       <div class="hero-illustration" aria-hidden="true">
         <svg viewBox="0 0 520 420" xmlns="http://www.w3.org/2000/svg">
           <defs>
@@ -86,7 +80,8 @@
             </clipPath>
           </defs>
 
-          <!-- Background -->
+          <!-- Fondo -->
+          <img src="./img/hueco.jpg" alt="Hueco en la vía">
           <rect width="520" height="420" fill="#0f1117" rx="20"/>
 
           <!-- Ambient glows -->
@@ -108,9 +103,9 @@
             <line x1="435" y1="0" x2="435" y2="420"/>
           </g>
 
-          <!-- ===== ISOMETRIC CITY ROAD ===== -->
           <!-- Main road surface -->
           <polygon points="60,310 460,310 500,390 20,390" fill="url(#road-grad)" stroke="#1e2840" stroke-width="1"/>
+
           <!-- Road center dashes -->
           <g fill="#2a3550" opacity="0.8">
             <rect x="100" y="345" width="40" height="6" rx="3"/>
@@ -126,7 +121,6 @@
           <polygon points="460,310 500,310 540,390 500,390" fill="#1a2030"/>
           <polygon points="20,390 60,310 20,310" fill="#1a2030"/>
 
-          <!-- ===== BUILDINGS (isometric) ===== -->
           <!-- Building 1 — left tall -->
           <g>
             <polygon points="30,240 90,220 90,310 30,310" fill="#1a2235"/>
@@ -170,6 +164,7 @@
             <polygon points="255,190 325,170 325,310 255,310" fill="#1d2540"/>
             <polygon points="255,190 325,170 365,190 295,210" fill="#26304a"/>
             <polygon points="295,210 365,190 365,310 295,310" fill="#1f2a42"/>
+
             <!-- Many windows -->
             <g fill="#38bdf8" opacity="0.1">
               <rect x="265" y="200" width="14" height="10" rx="1"/>
@@ -194,6 +189,7 @@
               <rect x="305" y="254" width="14" height="10" rx="1"/>
               <rect x="285" y="272" width="14" height="10" rx="1"/>
             </g>
+
             <!-- Antenna -->
             <line x1="290" y1="150" x2="290" y2="170" stroke="#38bdf8" stroke-width="2" opacity="0.6"/>
             <circle cx="290" cy="148" r="3" fill="#38bdf8" opacity="0.8"/>
@@ -239,91 +235,13 @@
           <!-- ===== POTHOLE / DAMAGE on road ===== -->
           <ellipse cx="230" cy="350" rx="22" ry="12" fill="#0a0d14" stroke="#1a2030" stroke-width="1.5"/>
           <ellipse cx="230" cy="350" rx="16" ry="8" fill="#060810"/>
+
           <!-- Crack lines -->
           <g stroke="#1a2030" stroke-width="1.5" opacity="0.8">
             <line x1="215" y1="343" x2="207" y2="337"/>
             <line x1="245" y1="343" x2="253" y2="338"/>
             <line x1="218" y1="358" x2="210" y2="364"/>
             <line x1="242" y1="358" x2="250" y2="363"/>
-          </g>
-
-          <!-- ===== FLOATING UI CARDS ===== -->
-
-          <!-- Card 1 — CRITICAL alert (top left) -->
-          <g filter="url(#glow-filter)">
-            <rect x="18" y="30" width="175" height="72" rx="12" fill="url(#card-grad)" stroke="rgba(229,57,53,0.35)" stroke-width="1"/>
-            <rect x="18" y="30" width="175" height="3" rx="2" fill="#e53935" opacity="0.8"/>
-            <!-- Icon bg -->
-            <rect x="28" y="44" width="30" height="30" rx="8" fill="rgba(229,57,53,0.15)"/>
-            <text x="43" y="64" font-family="sans-serif" font-size="16" text-anchor="middle" fill="#e53935">⚠</text>
-            <!-- Text -->
-            <text x="68" y="55" font-family="Space Grotesk, sans-serif" font-size="10" font-weight="700" fill="#f1f5f9">Reporte Crítico</text>
-            <text x="68" y="68" font-family="Space Grotesk, sans-serif" font-size="9" fill="#94a3b8">Av. El Dorado · Kennedy</text>
-            <!-- Badge -->
-            <rect x="68" y="74" width="46" height="16" rx="4" fill="rgba(229,57,53,0.2)"/>
-            <text x="91" y="85" font-family="Space Grotesk, sans-serif" font-size="8" font-weight="600" fill="#e53935" text-anchor="middle">URGENTE</text>
-            <!-- Pulse -->
-            <circle cx="184" cy="44" r="5" fill="#e53935"/>
-            <circle cx="184" cy="44" r="5" fill="none" stroke="#e53935" stroke-width="2" opacity="0.6">
-              <animate attributeName="r" from="5" to="12" dur="1.5s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" from="0.6" to="0" dur="1.5s" repeatCount="indefinite"/>
-            </circle>
-          </g>
-
-          <!-- Card 2 — Status card (top right) -->
-          <g>
-            <rect x="325" y="22" width="178" height="80" rx="12" fill="url(#card-grad)" stroke="rgba(56,189,248,0.25)" stroke-width="1"/>
-            <rect x="325" y="22" width="178" height="3" rx="2" fill="#38bdf8" opacity="0.7"/>
-            <text x="340" y="44" font-family="Space Grotesk, sans-serif" font-size="9" font-weight="600" fill="#64748b" letter-spacing="1">ESTADO DEL REPORTE</text>
-            <!-- Timeline mini -->
-            <circle cx="340" cy="62" r="5" fill="#22c55e"/>
-            <text x="352" y="66" font-family="Space Grotesk, sans-serif" font-size="9" fill="#94a3b8">Recibido</text>
-            <line x1="340" y1="67" x2="340" y2="78" stroke="#22c55e" stroke-width="1.5" opacity="0.5"/>
-            <circle cx="340" cy="82" r="5" fill="#38bdf8"/>
-            <text x="352" y="86" font-family="Space Grotesk, sans-serif" font-size="9" fill="#94a3b8">En revisión</text>
-            <!-- Code -->
-            <text x="430" y="66" font-family="IBM Plex Mono, monospace" font-size="9" fill="#38bdf8" text-anchor="middle">#VIA-2025</text>
-            <text x="430" y="78" font-family="IBM Plex Mono, monospace" font-size="9" fill="#38bdf8" text-anchor="middle">-214</text>
-          </g>
-
-          <!-- Card 3 — Stats mini (bottom right floating) -->
-          <g>
-            <rect x="358" y="230" width="148" height="68" rx="12" fill="url(#card-grad)" stroke="rgba(249,115,22,0.25)" stroke-width="1"/>
-            <text x="373" y="250" font-family="Space Grotesk, sans-serif" font-size="9" font-weight="600" fill="#64748b" letter-spacing="1">REPORTES HOY</text>
-            <text x="373" y="274" font-family="IBM Plex Mono, monospace" font-size="26" font-weight="700" fill="#f97316">14</text>
-            <!-- Mini bar chart -->
-            <g fill="#f97316" opacity="0.5">
-              <rect x="440" y="266" width="8" height="22" rx="2"/>
-              <rect x="452" y="271" width="8" height="17" rx="2"/>
-              <rect x="464" y="258" width="8" height="30" rx="2"/>
-              <rect x="476" y="263" width="8" height="25" rx="2"/>
-              <rect x="488" y="255" width="8" height="33" rx="2"/>
-            </g>
-            <g fill="#f97316" opacity="0.9">
-              <rect x="488" y="255" width="8" height="33" rx="2"/>
-            </g>
-          </g>
-
-          <!-- Card 4 — Mini notification (bottom left) -->
-          <g>
-            <rect x="18" y="235" width="152" height="56" rx="10" fill="url(#card-grad)" stroke="rgba(34,197,94,0.25)" stroke-width="1"/>
-            <rect x="28" y="249" width="22" height="22" rx="6" fill="rgba(34,197,94,0.15)"/>
-            <text x="39" y="264" font-family="sans-serif" font-size="12" text-anchor="middle" fill="#22c55e">✓</text>
-            <text x="58" y="257" font-family="Space Grotesk, sans-serif" font-size="9" font-weight="700" fill="#f1f5f9">¡Reparado!</text>
-            <text x="58" y="269" font-family="Space Grotesk, sans-serif" font-size="8" fill="#94a3b8">Cra. 7 · La Candelaria</text>
-            <text x="58" y="280" font-family="Space Grotesk, sans-serif" font-size="8" fill="#64748b">hace 5 min</text>
-          </g>
-
-          <!-- Damage pin on road -->
-          <g>
-            <circle cx="230" cy="326" r="14" fill="#e53935" opacity="0.95"/>
-            <text x="230" y="331" font-family="sans-serif" font-size="13" text-anchor="middle" fill="white" font-weight="bold">!</text>
-            <circle cx="230" cy="326" r="14" fill="none" stroke="#e53935" stroke-width="2.5" opacity="0.5">
-              <animate attributeName="r" from="14" to="28" dur="2s" repeatCount="indefinite"/>
-              <animate attributeName="opacity" from="0.5" to="0" dur="2s" repeatCount="indefinite"/>
-            </circle>
-            <!-- Pin line to pothole -->
-            <line x1="230" y1="340" x2="230" y2="348" stroke="#e53935" stroke-width="1.5" opacity="0.5"/>
           </g>
 
           <!-- Floating dots decoration -->
@@ -392,7 +310,7 @@
         </div>
       </div>
       <div class="mapa-ilustrado">
-        <svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Mapa ilustrado de zonas dañadas">
+        <svg viewBox="0 0 600 380" xmlns="htktp://www.w3.org/2000/svg" role="img" aria-label="Mapa ilustrado de zonas dañadas">
           <!-- Fondo ciudad -->
           <rect width="600" height="380" fill="#1a1f2e" rx="12"/>
           <!-- Calles principales -->
@@ -488,7 +406,7 @@
         <h3>Av. El Dorado con Cra. 50</h3>
         <p class="card-desc">Hueco de gran tamaño en carril derecho. Daño profundo que afecta tránsito de buses.</p>
         <div class="card-meta">
-          <span>📍 Kennedy, Bogotá</span>
+          <span>📍 barrio blanco, Cúcuta</span>
           <span class="estado estado-pendiente">Pendiente</span>
         </div>
         <div class="card-acciones">
@@ -516,7 +434,7 @@
         <h3>Calle 80 con Autopista Norte</h3>
         <p class="card-desc">Múltiples huecos en zona de semáforo. Riesgo para motociclistas en horas pico.</p>
         <div class="card-meta">
-          <span>📍 Barrios Unidos, Bogotá</span>
+          <span>📍 Av guaimaral, Cúcuta</span>
           <span class="estado estado-revision">En revisión</span>
         </div>
         <div class="card-acciones">
@@ -542,7 +460,7 @@
         <h3>Transversal 93 con Calle 142</h3>
         <p class="card-desc">Señalización borrada y bache en intersección. Confusión en la vía.</p>
         <div class="card-meta">
-          <span>📍 Usaquén, Bogotá</span>
+          <span>📍 Las americas, Cúcuta</span>
           <span class="estado estado-revision">En reparación</span>
         </div>
         <div class="card-acciones">
@@ -566,7 +484,7 @@
         <h3>Cra. 7 con Calle 26</h3>
         <p class="card-desc">Grietas superficiales en el pavimento. No impide el tráfico pero requiere atención preventiva.</p>
         <div class="card-meta">
-          <span>📍 La Candelaria, Bogotá</span>
+          <span>📍 San rafael, Cúcuta</span>
           <span class="estado estado-pendiente">Pendiente</span>
         </div>
         <div class="card-acciones">
@@ -590,7 +508,7 @@
         <h3>Av. Boyacá con Calle 63</h3>
         <p class="card-desc">Hueco reparado por cuadrilla del IDU. Comunidad agradece la respuesta.</p>
         <div class="card-meta">
-          <span>📍 Fontibón, Bogotá</span>
+          <span>📍 La ceiba, Cúcuta</span>
           <span class="estado estado-resuelto">✓ Resuelto</span>
         </div>
         <div class="card-acciones">
@@ -617,7 +535,7 @@
         <h3>Calle 13 con Cra. 30</h3>
         <p class="card-desc">Socavón de +1 metro en vía principal. Se reportan daños a vehículos. ¡Urgente!</p>
         <div class="card-meta">
-          <span>📍 Puente Aranda, Bogotá</span>
+          <span>📍 Los caobos, Cúcuta</span>
           <span class="estado estado-pendiente">Pendiente</span>
         </div>
         <div class="card-acciones">
@@ -638,137 +556,6 @@
         </div>
       </article>
 
-    </div>
-  </section>
-
-  <!-- FORMULARIO DE REPORTE -->
-  <section id="formulario">
-    <div class="section-header">
-      <h2>Hacer un reporte</h2>
-      <p>Tu reporte es anónimo. Ayuda a priorizar las reparaciones más urgentes.</p>
-    </div>
-    <div class="form-container">
-      <div class="form-card">
-        <div id="form-success" class="form-success" hidden>
-          <span class="success-icon">✓</span>
-          <h3>¡Reporte enviado!</h3>
-          <p>Gracias por contribuir. Tu reporte ha sido registrado con el código <strong id="codigo-reporte">#VIA-2024-XXX</strong>.</p>
-          <button onclick="resetForm()">Hacer otro reporte</button>
-        </div>
-
-        <form id="reporte-form" onsubmit="enviarReporte(event)" novalidate>
-          <div class="form-grid">
-            <div class="form-group full-width">
-              <label for="direccion">Dirección del daño *</label>
-              <input type="text" id="direccion" name="direccion" placeholder="Ej: Calle 80 con Carrera 50, Bogotá" required />
-              <span class="form-hint">Sé lo más específico posible (barrio, referencia cercana)</span>
-            </div>
-
-            <div class="form-group">
-              <label for="localidad">Localidad / Municipio *</label>
-              <select id="localidad" name="localidad" required>
-                <option value="">Selecciona...</option>
-                <option>Usaquén</option>
-                <option>Chapinero</option>
-                <option>Santa Fe</option>
-                <option>San Cristóbal</option>
-                <option>Usme</option>
-                <option>Tunjuelito</option>
-                <option>Bosa</option>
-                <option>Kennedy</option>
-                <option>Fontibón</option>
-                <option>Engativá</option>
-                <option>Suba</option>
-                <option>Barrios Unidos</option>
-                <option>Teusaquillo</option>
-                <option>Los Mártires</option>
-                <option>Antonio Nariño</option>
-                <option>Puente Aranda</option>
-                <option>La Candelaria</option>
-                <option>Rafael Uribe</option>
-                <option>Ciudad Bolívar</option>
-                <option>Sumapaz</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label for="tipo-dano">Tipo de daño *</label>
-              <select id="tipo-dano" name="tipo-dano" required>
-                <option value="">Selecciona...</option>
-                <option>Hueco / bache</option>
-                <option>Socavón</option>
-                <option>Grietas en pavimento</option>
-                <option>Señalización borrada</option>
-                <option>Señal de tránsito caída</option>
-                <option>Hundimiento de vía</option>
-                <option>Daño en andén / bordillo</option>
-                <option>Otro</option>
-              </select>
-            </div>
-
-            <div class="form-group full-width">
-              <label>Nivel de gravedad *</label>
-              <div class="gravedad-selector">
-                <label class="gravedad-opcion critica">
-                  <input type="radio" name="gravedad" value="critica" required />
-                  <span class="gravedad-label">⚠ Crítico</span>
-                  <span class="gravedad-desc">Peligro inmediato, daños a vehículos</span>
-                </label>
-                <label class="gravedad-opcion alta">
-                  <input type="radio" name="gravedad" value="alta" />
-                  <span class="gravedad-label">▲ Alto</span>
-                  <span class="gravedad-desc">Requiere atención urgente</span>
-                </label>
-                <label class="gravedad-opcion media">
-                  <input type="radio" name="gravedad" value="media" />
-                  <span class="gravedad-label">● Medio</span>
-                  <span class="gravedad-desc">Daño moderado, molesto</span>
-                </label>
-                <label class="gravedad-opcion baja">
-                  <input type="radio" name="gravedad" value="baja" />
-                  <span class="gravedad-label">◌ Bajo</span>
-                  <span class="gravedad-desc">Deterioro leve, preventivo</span>
-                </label>
-              </div>
-            </div>
-
-            <div class="form-group full-width">
-              <label for="descripcion">Descripción del daño *</label>
-              <textarea id="descripcion" name="descripcion" rows="4" placeholder="Describe el daño con detalle: tamaño aproximado, cuánto tiempo lleva así, si ha causado accidentes..." required></textarea>
-            </div>
-
-            <div class="form-group">
-              <label for="foto">Foto del daño (opcional)</label>
-              <div class="file-upload" onclick="document.getElementById('foto').click()">
-                <span>📷 Toca para adjuntar foto</span>
-                <span class="file-hint">JPG, PNG — máx. 5MB</span>
-              </div>
-              <input type="file" id="foto" name="foto" accept="image/*" style="display:none" onchange="mostrarFoto(this)" />
-              <div id="preview-foto" class="foto-preview" hidden></div>
-            </div>
-
-            <div class="form-group">
-              <label for="horario">¿Cuándo es más peligroso?</label>
-              <select id="horario" name="horario">
-                <option value="">Selecciona...</option>
-                <option>Todo el día</option>
-                <option>Horas pico (mañana/tarde)</option>
-                <option>Noche (falta iluminación)</option>
-                <option>Lluvia (se inunda)</option>
-              </select>
-            </div>
-
-            <div class="form-group full-width aviso-anonimo">
-              <span>🔒 Tu reporte es completamente anónimo. No se almacenan datos personales.</span>
-            </div>
-          </div>
-
-          <div class="form-actions">
-            <button type="reset" class="btn-outline">Limpiar</button>
-            <button type="submit" class="btn-primary">Enviar reporte →</button>
-          </div>
-        </form>
-      </div>
     </div>
   </section>
 
@@ -834,7 +621,6 @@
         <ul>
           <li><a href="#mapa">Mapa de daños</a></li>
           <li><a href="#reportes">Reportes</a></li>
-          <li><a href="#formulario">Hacer reporte</a></li>
           <li><a href="#estado">Estado</a></li>
         </ul>
       </nav>
@@ -846,10 +632,9 @@
       </div>
     </div>
     <div class="footer-bottom">
-      <p>© 2024 VíaAlerta — Plataforma ciudadana de reporte vial. Todos los reportes son anónimos.</p>
+      <p>© 2026 VíaAlerta — Plataforma ciudadana de reporte vial. Todos los reportes son anónimos.</p>
     </div>
   </footer>
-
-  <script src="js/main.js"></script>
+<script src="javascript.js"></script>
 </body>
 </html>
